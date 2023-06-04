@@ -1,12 +1,58 @@
-[gd_scene load_steps=3 format=3 uid="uid://8q1jtuunx5ol"]
+[gd_scene load_steps=21 format=3 uid="uid://8q1jtuunx5ol"]
 
 [ext_resource type="Texture2D" uid="uid://dl75gk1ela43v" path="res://icon.svg" id="1_d5emr"]
 [ext_resource type="Script" path="res://movement.gd" id="2_voo06"]
+[ext_resource type="Texture2D" uid="uid://2jlstvt3xcly" path="res://exampleCharacter/Hank_0_0.png" id="3_4mj1v"]
+[ext_resource type="Texture2D" uid="uid://c2bvbdq4qcmj5" path="res://exampleCharacter/Hank_1_0.png" id="4_tmx5g"]
+[ext_resource type="Texture2D" uid="uid://bgj7hsqixoaqm" path="res://exampleCharacter/Hank_2_0.png" id="5_83fr4"]
+[ext_resource type="Texture2D" uid="uid://b48iol01ft1k" path="res://exampleCharacter/Hank_3_0.png" id="6_sp5eo"]
+[ext_resource type="Texture2D" uid="uid://qrrckdubhs8d" path="res://exampleCharacter/Hank_4_0.png" id="7_xly3g"]
+[ext_resource type="Texture2D" uid="uid://cgqft5aacn3ei" path="res://exampleCharacter/Hank_5_0.png" id="8_ls83m"]
+[ext_resource type="Texture2D" uid="uid://bm2o5bvu5hk2h" path="res://exampleCharacter/Hank_6_0.png" id="9_08q2o"]
+[ext_resource type="Texture2D" uid="uid://bm28nqqvwgesv" path="res://exampleCharacter/Hank_7_0.png" id="10_io21y"]
+[ext_resource type="Texture2D" uid="uid://blwi24ntqv5ln" path="res://exampleCharacter/Hank_8_0.png" id="11_vrmfu"]
+[ext_resource type="Texture2D" uid="uid://drk8gq0b3bjq4" path="res://exampleCharacter/Hank_9_0.png" id="12_fgfl0"]
+[ext_resource type="Texture2D" uid="uid://bh5smqrthq58l" path="res://exampleCharacter/Hank_10_0.png" id="13_q8ekp"]
+[ext_resource type="Texture2D" uid="uid://bkals3oblb3s3" path="res://exampleCharacter/Hank_11_0.png" id="14_dgeu5"]
+[ext_resource type="Texture2D" uid="uid://bkfqja8u4arls" path="res://exampleCharacter/Hank_12_0.png" id="15_rip68"]
+[ext_resource type="Texture2D" uid="uid://ck5ddxfsd84j6" path="res://exampleCharacter/Hank_13_0.png" id="16_twwg0"]
+[ext_resource type="Texture2D" uid="uid://c5e31g214dia5" path="res://exampleCharacter/Hank_14_0.png" id="17_qyi8r"]
+[ext_resource type="Texture2D" uid="uid://dd8ldwl7a4w4h" path="res://exampleCharacter/Hank_15_0.png" id="18_4ixrp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4kwbe"]
+size = Vector2(128, 128)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lbx0f"]
+size = Vector2(132, 128)
 
 [node name="Scene" type="Node2D"]
 
-[node name="Icon" type="Sprite2D" parent="."]
-texture_filter = 1
-position = Vector2(357, 291)
+[node name="Obstacle" type="RigidBody2D" parent="."]
+position = Vector2(-255, -68)
+lock_rotation = true
+freeze = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Obstacle"]
 texture = ExtResource("1_d5emr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacle"]
+position = Vector2(-1, 0)
+shape = SubResource("RectangleShape2D_4kwbe")
+debug_color = Color(0.466667, 0.443137, 1, 0.419608)
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="." node_paths=PackedStringArray("visuals")]
+floor_constant_speed = true
 script = ExtResource("2_voo06")
+speed = 600.0
+visuals = NodePath("Sprite2D")
+rotations = Array[Texture]([ExtResource("3_4mj1v"), ExtResource("4_tmx5g"), ExtResource("5_83fr4"), ExtResource("6_sp5eo"), ExtResource("7_xly3g"), ExtResource("8_ls83m"), ExtResource("9_08q2o"), ExtResource("10_io21y"), ExtResource("11_vrmfu"), ExtResource("12_fgfl0"), ExtResource("13_q8ekp"), ExtResource("14_dgeu5"), ExtResource("15_rip68"), ExtResource("16_twwg0"), ExtResource("17_qyi8r"), ExtResource("18_4ixrp")])
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
+texture = ExtResource("1_d5emr")
+
+[node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+position = Vector2(2, 0)
+shape = SubResource("RectangleShape2D_lbx0f")
+debug_color = Color(0.47451, 0.588235, 0, 0.419608)
