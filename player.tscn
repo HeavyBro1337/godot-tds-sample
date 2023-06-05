@@ -1,0 +1,67 @@
+[gd_scene load_steps=22 format=3 uid="uid://cxam3itlxjdut"]
+
+[ext_resource type="Script" path="res://movement.gd" id="1_bwk6i"]
+[ext_resource type="Texture2D" uid="uid://2jlstvt3xcly" path="res://exampleCharacter/Hank_0_0.png" id="2_bbxr8"]
+[ext_resource type="Texture2D" uid="uid://c2bvbdq4qcmj5" path="res://exampleCharacter/Hank_1_0.png" id="3_rofx3"]
+[ext_resource type="Texture2D" uid="uid://bgj7hsqixoaqm" path="res://exampleCharacter/Hank_2_0.png" id="4_4uxvn"]
+[ext_resource type="Texture2D" uid="uid://b48iol01ft1k" path="res://exampleCharacter/Hank_3_0.png" id="5_hj3ue"]
+[ext_resource type="Texture2D" uid="uid://qrrckdubhs8d" path="res://exampleCharacter/Hank_4_0.png" id="6_uk7wx"]
+[ext_resource type="Texture2D" uid="uid://cgqft5aacn3ei" path="res://exampleCharacter/Hank_5_0.png" id="7_147mj"]
+[ext_resource type="Texture2D" uid="uid://bm2o5bvu5hk2h" path="res://exampleCharacter/Hank_6_0.png" id="8_3xnso"]
+[ext_resource type="Texture2D" uid="uid://bm28nqqvwgesv" path="res://exampleCharacter/Hank_7_0.png" id="9_x46b7"]
+[ext_resource type="Texture2D" uid="uid://blwi24ntqv5ln" path="res://exampleCharacter/Hank_8_0.png" id="10_bf7yc"]
+[ext_resource type="Texture2D" uid="uid://drk8gq0b3bjq4" path="res://exampleCharacter/Hank_9_0.png" id="11_k2sr3"]
+[ext_resource type="Texture2D" uid="uid://bh5smqrthq58l" path="res://exampleCharacter/Hank_10_0.png" id="12_2efms"]
+[ext_resource type="Texture2D" uid="uid://bkals3oblb3s3" path="res://exampleCharacter/Hank_11_0.png" id="13_pjwbf"]
+[ext_resource type="Texture2D" uid="uid://bkfqja8u4arls" path="res://exampleCharacter/Hank_12_0.png" id="14_41xil"]
+[ext_resource type="Texture2D" uid="uid://ck5ddxfsd84j6" path="res://exampleCharacter/Hank_13_0.png" id="15_qugr7"]
+[ext_resource type="Texture2D" uid="uid://c5e31g214dia5" path="res://exampleCharacter/Hank_14_0.png" id="16_lrdl6"]
+[ext_resource type="Texture2D" uid="uid://dd8ldwl7a4w4h" path="res://exampleCharacter/Hank_15_0.png" id="17_jv04x"]
+[ext_resource type="Script" path="res://player_input.gd" id="18_o56qh"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_r7d0p"]
+properties/0/path = NodePath(".:player")
+properties/0/spawn = true
+properties/0/sync = false
+properties/1/path = NodePath(".:position")
+properties/1/spawn = true
+properties/1/sync = true
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_5njwe"]
+properties/0/path = NodePath("PlayerSync:mouse_position")
+properties/0/spawn = true
+properties/0/sync = true
+properties/1/path = NodePath("PlayerSync:direction")
+properties/1/spawn = true
+properties/1/sync = true
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lbx0f"]
+size = Vector2(20, 38)
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("visuals", "camera")]
+collision_layer = 2
+floor_constant_speed = true
+script = ExtResource("1_bwk6i")
+speed = 600.0
+visuals = NodePath("Sprite2D")
+camera = NodePath("Camera2D")
+rotations = Array[Texture2D]([ExtResource("2_bbxr8"), ExtResource("3_rofx3"), ExtResource("4_4uxvn"), ExtResource("5_hj3ue"), ExtResource("6_uk7wx"), ExtResource("7_147mj"), ExtResource("8_3xnso"), ExtResource("9_x46b7"), ExtResource("10_bf7yc"), ExtResource("11_k2sr3"), ExtResource("12_2efms"), ExtResource("13_pjwbf"), ExtResource("14_41xil"), ExtResource("15_qugr7"), ExtResource("16_lrdl6"), ExtResource("17_jv04x")])
+
+[node name="Server" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_r7d0p")
+
+[node name="PlayerSync" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_5njwe")
+script = ExtResource("18_o56qh")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_bbxr8")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -14)
+shape = SubResource("RectangleShape2D_lbx0f")
+debug_color = Color(0.47451, 0.588235, 0, 0.419608)
