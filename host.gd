@@ -7,7 +7,7 @@ func _pressed():
 	if host:
 		network.host()
 	else:
-		network.join()
+		network.join($TextEdit.text)
 	hide()
 	if multiplayer.is_server():
 		print("Spawning level...")

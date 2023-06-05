@@ -13,10 +13,9 @@ func host():
 	multiplayer.multiplayer_peer = peer
 	print("Hosted")
 	
-func join():
-	peer.create_client("127.0.0.1", 5000)
+func join(ip : String):
+	peer.create_client(ip, 5000)
 	multiplayer.multiplayer_peer = peer
-	
 func change_level(scene: PackedScene):
 	# Remove old level if any.
 	var level = $Level
@@ -25,4 +24,3 @@ func change_level(scene: PackedScene):
 		c.queue_free()
 	# Add new level.
 	level.add_child(scene.instantiate())
-

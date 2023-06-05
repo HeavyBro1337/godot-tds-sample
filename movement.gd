@@ -18,8 +18,8 @@ func get_degrees_to_mouse():
 	if not _mine():
 		return
 	$PlayerSync.mouse_position = get_node("/root/Scene").get_local_mouse_position()
-	var dir : Vector2 = (position - $PlayerSync.mouse_position).normalized()
-	set_sprite(rad_to_deg(atan2(dir.y, -dir.x)))
+	var dir : Vector2 = ($PlayerSync.mouse_position - position).normalized()
+	set_sprite(vec_to_deg(dir))
 
 func _mine() -> bool:
 	return player == multiplayer.get_unique_id()
@@ -36,8 +36,8 @@ func set_sprite(angle : float):
 	var snap : float = 360 / len(rotations)
 	angle = round(angle / snap) * snap # snapping angle
 	angle = int(angle) % 360
-	
-	var index : int = round(angle / 360 * (len(rotations) - 1))
+	var rots = len(rotations) - 1
+	var index : int = rots - round(angle / 360 * rots)
 	visuals.texture = rotations[index]
 
 func handle_input(delta : float):
@@ -51,5 +51,21 @@ func _physics_process(delta):
 func _process(delta):
 	get_degrees_to_mouse()
 	if not _mine():
-		var dir : Vector2 = (position - $PlayerSync.mouse_position).normalized()
-		set_sprite(rad_to_deg(atan2(dir.y, -dir.x)))
+		var dir : Vector2 = ($PlayerSync.mouse_position - position).normalized()
+		set_sprite(vec_to_deg(dir))
+
+static func vec_to_deg(direction : Vector2) -> float:
+	return rad_to_deg(atan2(direction.y, direction.x))
+	
+@rpc
+func shoot_projectile():
+	var bullet = preload("res://Bullet.tscn").instantiate()
+	var dir : Vector2 = ($PlayerSync.mouse_position - position).normalized()
+	var angle : float = vec_to_deg(dir)
+	bullet.rotation_degrees = angle
+	bullet.name = "bullet %d" % player
+	bullet.position = position
+	get_parent().add_child(bullet, true)
+	
+	
+	
