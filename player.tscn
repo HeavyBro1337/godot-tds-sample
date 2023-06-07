@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://cxam3itlxjdut"]
+[gd_scene load_steps=24 format=3 uid="uid://cxam3itlxjdut"]
 
 [ext_resource type="Script" path="res://movement.gd" id="1_bwk6i"]
 [ext_resource type="Texture2D" uid="uid://2jlstvt3xcly" path="res://exampleCharacter/Hank_0_0.png" id="2_bbxr8"]
@@ -18,6 +18,8 @@
 [ext_resource type="Texture2D" uid="uid://c5e31g214dia5" path="res://exampleCharacter/Hank_14_0.png" id="16_lrdl6"]
 [ext_resource type="Texture2D" uid="uid://dd8ldwl7a4w4h" path="res://exampleCharacter/Hank_15_0.png" id="17_jv04x"]
 [ext_resource type="Script" path="res://player_input.gd" id="18_o56qh"]
+[ext_resource type="Script" path="res://rotatable_animator.gd" id="19_rj8mp"]
+[ext_resource type="PackedScene" uid="uid://cn5gdtwgbhsj6" path="res://animations/Aiming.tscn" id="20_utxuk"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_r7d0p"]
 properties/0/path = NodePath(".:player")
@@ -38,10 +40,11 @@ properties/1/sync = true
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lbx0f"]
 size = Vector2(20, 38)
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("visuals", "camera")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("animator", "visuals", "camera")]
 collision_layer = 2
 floor_constant_speed = true
 script = ExtResource("1_bwk6i")
+animator = NodePath("Sprite2D")
 speed = 600.0
 visuals = NodePath("Sprite2D")
 camera = NodePath("Camera2D")
@@ -57,6 +60,9 @@ script = ExtResource("18_o56qh")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
 texture = ExtResource("2_bbxr8")
+script = ExtResource("19_rj8mp")
+animation = ExtResource("20_utxuk")
+fps = 6.0
 
 [node name="Camera2D" type="Camera2D" parent="."]
 

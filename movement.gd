@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 class_name Player
-
+@export var animator : RotatableAnimator
 @export var speed : float = 30
 @export var visuals : Sprite2D
 @export var camera : Camera2D
@@ -19,7 +19,7 @@ func get_degrees_to_mouse():
 		return
 	$PlayerSync.mouse_position = get_node("/root/Scene").get_local_mouse_position()
 	var dir : Vector2 = ($PlayerSync.mouse_position - position).normalized()
-	set_sprite(vec_to_deg(dir))
+	animator.angle = vec_to_deg(dir)
 
 func _mine() -> bool:
 	return player == multiplayer.get_unique_id()
@@ -29,16 +29,6 @@ func _ready():
 	if not _mine():
 		camera.queue_free()
 	set_physics_process(multiplayer.is_server())
-	
-func set_sprite(angle : float):
-	while angle < 0:
-		angle += 360
-	var snap : float = 360 / len(rotations)
-	angle = round(angle / snap) * snap # snapping angle
-	angle = int(angle) % 360
-	var rots = len(rotations) - 1
-	var index : int = rots - round(angle / 360 * rots)
-	visuals.texture = rotations[index]
 
 func handle_input(delta : float):
 	position += $PlayerSync.direction.normalized() * speed * delta
@@ -52,7 +42,7 @@ func _process(delta):
 	get_degrees_to_mouse()
 	if not _mine():
 		var dir : Vector2 = ($PlayerSync.mouse_position - position).normalized()
-		set_sprite(vec_to_deg(dir))
+		animator.angle = vec_to_deg(dir)
 
 static func vec_to_deg(direction : Vector2) -> float:
 	return rad_to_deg(atan2(direction.y, direction.x))

@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cn5gdtwgbhsj6"]
+
+[ext_resource type="Script" path="res://rotatable_animation.gd" id="1_akwh8"]
+
+[node name="Aiming" type="Node2D"]
+process_priority = -100
+script = ExtResource("1_akwh8")
+animationPath = "res://Soldier/aiming/"
